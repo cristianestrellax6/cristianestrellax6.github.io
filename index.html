@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cristian Estrella - SDET / QA Automation Engineer</title>
+<meta name="description" content="Cristian Estrella — SDET / Test Automation Engineer. Playwright, TypeScript, API testing, AI-assisted automation. Remote, USD-based, GMT-6.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E11;
+    --bg-raised: #12161C;
+    --bg-raised-2: #171C24;
+    --border: #232A33;
+    --text: #E4E7EB;
+    --text-dim: #7C8894;
+    --text-faint: #4B5560;
+    --pass: #3FB950;
+    --pass-dim: #1F5C2A;
+    --amber: #D4A72C;
+    --red: #F85149;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a { color: inherit; }
+
+  ::selection { background: var(--pass-dim); color: #fff; }
+
+  :focus-visible {
+    outline: 2px solid var(--pass);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11, 14, 17, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pass);
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .nav-links a { text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover { color: var(--pass); }
+  @media (max-width: 560px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HERO / TERMINAL ---------- */
+  header.hero {
+    padding: 72px 0 56px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .eyebrow .amber { color: var(--amber); }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(30px, 5vw, 46px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  h1 .name { color: var(--text); }
+
+  .subhead {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 56ch;
+    margin-bottom: 32px;
+  }
+
+  .terminal {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bg-raised-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #4d4038; }
+  .dot.y { background: #4d4634; }
+  .dot.g { background: #354d38; }
+  .terminal-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-left: 6px;
+  }
+  .terminal-body {
+    padding: 20px 18px 24px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+  }
+  .terminal-body .cmd { color: var(--text-dim); margin-bottom: 14px; }
+  .terminal-body .cmd::before { content: '$ '; color: var(--pass); }
+  .terminal-line {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    opacity: 0;
+    animation: reveal 0.35s ease forwards;
+  }
+  .terminal-line .check { color: var(--pass); flex-shrink: 0; }
+  .terminal-line .assertion { color: var(--text-faint); }
+  .terminal-line .val { color: var(--text); }
+  .terminal-summary {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    color: var(--pass);
+    opacity: 0;
+    animation: reveal 0.35s ease forwards;
+  }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-line, .terminal-summary { animation: none; opacity: 1; }
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 11px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary {
+    background: var(--pass);
+    color: #08150a;
+    font-weight: 600;
+  }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { border-color: var(--pass); }
+
+  /* ---------- SECTION SHELL ---------- */
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+  .section-head { margin-bottom: 32px; }
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--pass);
+    margin-bottom: 8px;
+  }
+  .section-tag::before { content: '// '; color: var(--text-faint); }
+  h2 {
+    font-size: clamp(22px, 3.4vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- TRUSTED BY ---------- */
+  .trustbar {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+  .trust-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    align-items: center;
+  }
+  .trust-name {
+    font-family: var(--mono);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 35px;
+    border-radius: 7px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--pass);
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-body p { color: var(--text-dim); max-width: 66ch; margin-bottom: 14px; font-size: 15.5px; }
+  .about-body strong { color: var(--text); font-weight: 600; }
+
+  .fact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 28px;
+  }
+  .fact {
+    background: var(--bg-raised);
+    padding: 16px 18px;
+  }
+  .fact-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .fact-value { font-size: 14.5px; font-weight: 500; }
+
+  /* ---------- SKILLS (config file) ---------- */
+  .config {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    overflow: hidden;
+  }
+  .config-bar {
+    padding: 10px 16px;
+    background: var(--bg-raised-2);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 12px;
+  }
+  .config-body { padding: 20px 22px; }
+  .config-key { color: var(--amber); }
+  .config-punct { color: var(--text-faint); }
+  .config-str { color: var(--pass); }
+  .config-block { margin-bottom: 16px; }
+  .config-block:last-child { margin-bottom: 0; }
+  .config-values {
+    padding-left: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+  }
+  .chip {
+    display: inline-block;
+    color: var(--text);
+    background: var(--bg-raised-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    margin: 3px 6px 3px 0;
+    font-size: 12.5px;
+  }
+
+  /* ---------- EXPERIENCE (git log) ---------- */
+  .log { position: relative; padding-left: 28px; }
+  .log::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--border);
+  }
+  .commit { position: relative; padding-bottom: 34px; }
+  .commit:last-child { padding-bottom: 0; }
+  .commit::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 4px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--pass);
+  }
+  .commit.current::before { background: var(--pass); }
+  .commit-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .commit-meta .hash { color: var(--amber); }
+  .commit-title {
+    font-size: 16.5px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .commit-role { color: var(--text-dim); font-size: 13.5px; margin-bottom: 10px; }
+  .commit-desc { color: var(--text-dim); font-size: 14.5px; max-width: 62ch; margin-bottom: 12px; }
+  .commit-desc li { margin-bottom: 4px; list-style: none; position: relative; padding-left: 14px; }
+  .commit-desc li::before { content: '›'; position: absolute; left: 0; color: var(--text-faint); }
+  .commit-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .request {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    padding: 22px 24px;
+    overflow-x: auto;
+  }
+  .request .method { color: var(--pass); font-weight: 700; }
+  .request .url { color: var(--text); }
+  .request pre { margin-top: 12px; color: var(--text-dim); white-space: pre-wrap; }
+  .request .k { color: var(--amber); }
+  .request .v { color: var(--pass); }
+
+  .contact-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 48px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="nav-brand">$ sdet --status</span>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">stack</a></li>
+      <li><a href="#experience">log</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">SDET <span class="amber">/</span> QA Automation Engineer</div>
+    <h1><span class="name">Cristian Estrella</span></h1>
+    <h2>Testing the right things, not simply more things.</h2>
+    <p class="subhead">10+ years designing test automation architectures across web, API, and cloud environments. Expertise in Playwright and GitHub Actions CI/CD, with AI-assisted automation using Claude/Copilot + MCP. Based in Guadalajara, working remote with US-based teams. Fully bilingual (Spanish/English).</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="terminal-title">career.spec.ts</span>
+      </div>
+      <div class="terminal-body">
+        <div class="cmd">npx playwright test career.spec.ts</div>
+        <div class="terminal-line" style="animation-delay:.1s">
+          <span class="check">✓</span>
+          <span><span class="assertion">expect(experience).toBeGreaterThan(</span><span class="val">'10 years'</span><span class="assertion">)</span></span>
+        </div>
+        <div class="terminal-line" style="animation-delay:.3s">
+          <span class="check">✓</span>
+          <span><span class="assertion">expect(stack).toContain(</span><span class="val">['Playwright', 'TypeScript', 'GitHub Actions']</span><span class="assertion">)</span></span>
+        </div>
+        <div class="terminal-line" style="animation-delay:.5s">
+          <span class="check">✓</span>
+          <span><span class="assertion">expect(aiWorkflow).toBe(</span><span class="val">['Claude', 'Copilot', 'MCP', 'SpecTest']</span><span class="assertion">)</span></span>
+        </div>
+        <div class="terminal-line" style="animation-delay:.7s">
+          <span class="check">✓</span>
+          <span><span class="assertion">expect(availability).toBe(</span><span class="val">['remote', 'hybrid', 'office']</span><span class="assertion">)</span></span>
+        </div>
+        <div class="terminal-line" style="animation-delay:.9s">
+          <span class="check">✓</span>
+          <span><span class="assertion">expect(status).toBe(</span><span class="val">'open to opportunities'</span><span class="assertion">)</span></span>
+        </div>
+        <div class="terminal-summary" style="animation-delay:1.1s">5 passed (5) — ready for review</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Get in touch →</a>
+      <a class="btn btn-ghost" href="files/CestrellaResume.pdf" target="_blank" rel="noopener">Download resume</a>
+    </div>
+  </header>
+
+  <div class="trustbar">
+    <div class="trust-label">// trusted_by</div>
+    <div class="trust-row">
+      <div class="trust-item"><img class="trust-badge" src="logos/webpt.svg" alt="WebPT logo"><span class="trust-name">WebPT</span></div>
+      <div class="trust-item"><img class="trust-badge" src="logos/wizeline.svg" alt="Wizeline logo"><span class="trust-name">Wizeline</span></div>
+      <div class="trust-item"><img class="trust-badge" src="logos/newscorp.png" alt="NewsCorp logo"><span class="trust-name">News Corp Australia</span></div>
+      <div class="trust-item"><img class="trust-badge" src="logos/realtor.svg" alt="Realtor logo"><span class="trust-name">Realtor.com</span></div>
+      <div class="trust-item"><img class="trust-badge" src="logos/powerschool.png" alt="PowerSchool logo"><span class="trust-name">Hobsons / PowerSchool</span></div>
+      <div class="trust-item"><img class="trust-badge" src="logos/moduscreate.jpg" alt="ModusCreate logo"><span class="trust-name">Modus Create</span></div>      
+      <div class="trust-item"><img class="trust-badge" src="logos/tiempodev.png" alt="TiempoDev logo"><span class="trust-name">Tiempo Development</span></div>       
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="section-head">
+      <div class="section-tag">describe('about')</div>
+      <h2>What I do</h2>
+    </div>
+    <div class="about-body">
+      <p>I'm a <strong>Software Engineer in Test (SDET)</strong> with over a decade of experience designing robust test automation architectures across web, API, and cloud environments for fintech, EdTech, real estate, and media clients. I hold an <strong>Ingeniería en Software</strong> degree from ITSON.</p>
+      <p>My current focus is <strong>Playwright and GitHub Actions CI/CD</strong>, paired with AI-assisted test automation, using Claude and Copilot with MCP to generate context-aware test cases and speed up scripting without cutting corners on coverage.</p>
+    </div>
+    <div class="fact-grid">
+      <div class="fact">
+        <div class="fact-label">Location</div>
+        <div class="fact-value">Guadalajara, MX</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Timezone</div>
+        <div class="fact-value">GMT-6</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Experience</div>
+        <div class="fact-value">10+ years</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Seeking</div>
+        <div class="fact-value">Remote, hybrid, or office</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <div class="section-tag">playwright.config.ts</div>
+      <h2>Stack &amp; tooling</h2>
+    </div>
+    <div class="config">
+      <div class="config-bar">config / current &amp; historical stack</div>
+      <div class="config-body">
+        <div class="config-block">
+          <div><span class="config-key">automation_and_testing</span><span class="config-punct">:</span></div>
+          <div class="config-values">
+            <span class="chip">Playwright</span>
+            <span class="chip">Capybara</span>
+            <span class="chip">Protractor</span>
+            <span class="chip">Selenium HQ</span>
+            <span class="chip">Galen Framework</span>
+            <span class="chip">Cucumber</span>
+            <span class="chip">SitePrism</span>
+            <span class="chip">Jasmine</span>
+            <span class="chip">RSpec</span>
+            <span class="chip">TestNG</span>
+            <span class="chip">JUnit / NUnit</span>
+          </div>
+        </div>
+        <div class="config-block">
+          <div><span class="config-key">apis_and_performance</span><span class="config-punct">:</span></div>
+          <div class="config-values">
+            <span class="chip">Postman</span>
+            <span class="chip">Newman</span>
+            <span class="chip">k6</span>
+            <span class="chip">Rest Assured</span>
+          </div>
+        </div>
+        <div class="config-block">
+          <div><span class="config-key">devops_and_cicd</span><span class="config-punct">:</span></div>
+          <div class="config-values">
+            <span class="chip">Docker</span>
+            <span class="chip">GitHub Actions</span>
+            <span class="chip">Codefresh</span>
+            <span class="chip">Jenkins</span>
+            <span class="chip">SauceLabs</span>
+          </div>
+        </div>
+        <div class="config-block">
+          <div><span class="config-key">ai_and_productivity</span><span class="config-punct">:</span></div>
+          <div class="config-values">
+            <span class="chip">Claude / Copilot + MCP</span>
+            <span class="chip">SpecTest</span>
+            <span class="chip">Prompt engineering</span>
+          </div>
+        </div>
+        <div class="config-block">
+          <div><span class="config-key">languages</span><span class="config-punct">:</span></div>
+          <div class="config-values">
+            <span class="chip">TypeScript</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Ruby</span>
+            <span class="chip">Python</span>
+            <span class="chip">Java</span>
+            <span class="chip">C#</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <div class="section-tag">git log --oneline --graph</div>
+      <h2>Experience</h2>
+    </div>
+    <div class="log">
+      <div class="commit current">
+        <div class="commit-meta"><span class="hash">HEAD</span> · Jan 2023 — present</div>
+        <div class="commit-title">Freelance SDET AI Consultant</div>
+        <div class="commit-role">Independent / Multiple Clients</div>
+        <ul class="commit-desc">
+          <li>Delivered test automation and QA consulting for fintech and financial-services clients, designing end-to-end Playwright suites and CI/CD pipelines via GitHub Actions.</li>
+          <li>Leveraged AI-assisted workflows with SpecTest and Claude/Copilot + MCP, cutting scripting time by 40%.</li>
+          <li>Advised on test strategy and automation architecture across 2 clients; migrated legacy Selenium suites to Playwright with TypeScript.</li>
+        </ul>
+        <div class="commit-tags">
+          <span class="tag">Playwright</span><span class="tag">TypeScript</span><span class="tag">GitHub Actions</span><span class="tag">Claude/Copilot + MCP</span><span class="tag">SpecTest</span>
+        </div>
+      </div>
+      <div class="commit">
+        <div class="commit-meta">Oct 2018 — Apr 2022</div>
+        <div class="commit-title">Sr. Software Engineer in Test</div>
+        <div class="commit-role">Modus Create: US-based EdTech client</div>
+        <ul class="commit-desc">
+          <li>Modernized core web app sections (Course Planner, Scholarships), migrating from PHP to React.</li>
+          <li>Maintained automation suites with Capybara, Cucumber, RSpec, and SitePrism, run inside Docker.</li>
+          <li>Ran API testing with Postman/Newman and load testing with k6 to catch bottlenecks pre-deploy.</li>
+        </ul>
+        <div class="commit-tags">
+          <span class="tag">Capybara</span><span class="tag">Cucumber</span><span class="tag">RSpec</span><span class="tag">SitePrism</span><span class="tag">Docker</span><span class="tag">Postman/Newman</span><span class="tag">k6</span>
+        </div>
+      </div>
+      <div class="commit">
+        <div class="commit-meta">Jun 2015 — Oct 2018</div>
+        <div class="commit-title">Software Engineer in Test</div>
+        <div class="commit-role">Wizeline: embedded with News Corp brands</div>
+        <ul class="commit-desc">
+          <li>Built a complete E2E automation architecture from scratch using Page Object Pattern with Protractor and Jasmine.</li>
+          <li>Embedded contractor for News Corp brands (Move, Inc. and Escape), streamlining QA within agile teams.</li>
+          <li>Integrated automated pipelines into Jenkins CI/CD and cross-browser execution via SauceLabs; ran visual regression testing with Galen Framework.</li>
+        </ul>
+        <div class="commit-tags">
+          <span class="tag">Protractor</span><span class="tag">Jasmine</span><span class="tag">Jenkins</span><span class="tag">SauceLabs</span><span class="tag">Galen Framework</span>
+        </div>
+      </div>
+      <div class="commit">
+        <div class="commit-meta">Apr 2013 — Jun 2015</div>
+        <div class="commit-title">QA Engineer</div>
+        <div class="commit-role">Tiempo Development</div>
+        <ul class="commit-desc">
+          <li>Owned QA for an EMR web application built on PHP, Zend Framework, and MySQL.</li>
+          <li>Built automation scripts with Selenium HQ and TestNG in Java, cutting manual regression cycles.</li>
+          <li>Partnered with Business Analysts and Product Owners on acceptance criteria and Definition of Done; tracked defects in Rally.</li>
+        </ul>
+        <div class="commit-tags">
+          <span class="tag">Selenium HQ</span><span class="tag">TestNG</span><span class="tag">Java</span><span class="tag">PHP / Zend</span>
+        </div>
+      </div>
+      <div class="commit">
+        <div class="commit-meta">Feb 2012 — Apr 2013</div>
+        <div class="commit-title">Embedded Engineer</div>
+        <div class="commit-role">Pinnacle Aerospace</div>
+        <ul class="commit-desc">
+          <li>Achieved and verified MC/DC level B and C safety-critical compliance through rigorous requirement testing.</li>
+          <li>Authored automated test scripts in Python and proprietary languages, ensuring 100% requirements traceability.</li>
+        </ul>
+        <div class="commit-tags">
+          <span class="tag">MC/DC</span><span class="tag">Python</span><span class="tag">Embedded systems</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head">
+      <div class="section-tag">POST /contact</div>
+      <h2>Get in touch</h2>
+    </div>
+    <div class="request">
+<span class="method">POST</span> <span class="url">/contact</span>
+<pre><span class="k">"name"</span>: <span class="v">"Cristian Estrella"</span>,
+<span class="k">"role"</span>: <span class="v">"SDET / QA Automation Engineer"</span>,
+<span class="k">"availability"</span>: <span class="v">"remote, hybrid, or office"</span>,
+<span class="k">"response_time"</span>: <span class="v">"within 24h"</span></pre>
+    </div>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:cristianestrella_@hotmail.com">Email me</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/cristian-alejandro-estrella-gutierrez-554a6965/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/cristianestrellax6" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Built &amp; tested by hand.</span>
+    <span id="year"></span>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById('year').textContent = '© ' + new Date().getFullYear();
+</script>
+
+</body>
+</html>
